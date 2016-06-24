@@ -6,7 +6,10 @@ var gulp = require("gulp"),
     concat = require("gulp-concat"),
     cssmin = require("gulp-cssmin"),
     uglify = require("gulp-uglify"),
+    ts = require("gulp-typescript"),
+    tsconfig = require("./tsconfig"),
     del = require("del");
+
 
 var webroot = "./wwwroot/";
 
@@ -23,6 +26,12 @@ var paths = {
 /*<START>
 ----------------------------Tasks written for this project---------------------------
 */
+gulp.task('compile', ['clean-app'], function () {
+    return gulp
+      .src('./wwwroot/app/**/*.ts')
+      .pipe(ts(tsconfig.compilerOptions))
+      .pipe(gulp.dest("./wwwroot/app"));
+});
 
 gulp.task("clean-app", function() {
     del(["./wwwroot/app/*.js", "./wwwroot/app/*.js.map"]);

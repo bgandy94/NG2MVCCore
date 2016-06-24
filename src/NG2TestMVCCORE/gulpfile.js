@@ -1,11 +1,12 @@
-﻿/// <binding Clean='clean' />
+﻿/// <binding />
 "use strict";
 
 var gulp = require("gulp"),
     rimraf = require("rimraf"),
     concat = require("gulp-concat"),
     cssmin = require("gulp-cssmin"),
-    uglify = require("gulp-uglify");
+    uglify = require("gulp-uglify"),
+    del = require("del");
 
 var webroot = "./wwwroot/";
 
@@ -19,26 +20,19 @@ var paths = {
     libs: webroot + "libs"
 };
 
-gulp.task("clean:js", function (cb) {
-    rimraf(paths.concatJsDest, cb);
+/*<START>
+----------------------------Tasks written for this project---------------------------
+*/
+
+gulp.task("clean-app", function() {
+    del(["./wwwroot/app/*.js", "./wwwroot/app/*.js.map"]);
 });
 
-gulp.task("clean:css", function (cb) {
-    rimraf(paths.concatCssDest, cb);
+gulp.task("clean-libs", function () {
+    del(["./wwwroot/libs/**"]);
 });
 
-gulp.task("clean-libs", function(cb) {
-    rimraf(paths.libs, cb);
-});
-
-gulp.task("clean", ["clean:js", "clean:css", "clean-libs"]);
-
-gulp.task("min:js", function () {
-    return gulp.src([paths.js, "!" + paths.minJs], { base: "." })
-        .pipe(concat(paths.concatJsDest))
-        .pipe(uglify())
-        .pipe(gulp.dest("."));
-});
+gulp.task("copy-all", ["copy-libs", "copy-typings", "copy-css"]);
 
 gulp.task("copy-libs", () => {
     gulp.src([
@@ -62,10 +56,27 @@ gulp.task("copy-css", () => {
 
 });
 
+gulp.task("copy-typings", () => {
+    gulp.src("./typings/globals/es6-shim/index.d.ts")
+        .pipe(gulp.dest("./wwwroot/libs/typings/es6-shim/"));
+});
+
+/*<END>
+----------------------------Tasks written for this project---------------------------
+*/
+
+
 gulp.task("min:css", function () {
     return gulp.src([paths.css, "!" + paths.minCss])
         .pipe(concat(paths.concatCssDest))
         .pipe(cssmin())
+        .pipe(gulp.dest("."));
+});
+
+gulp.task("min:js", function () {
+    return gulp.src([paths.js, "!" + paths.minJs], { base: "." })
+        .pipe(concat(paths.concatJsDest))
+        .pipe(uglify())
         .pipe(gulp.dest("."));
 });
 

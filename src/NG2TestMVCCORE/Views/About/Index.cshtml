@@ -1,10 +1,13 @@
-﻿@{
-    ViewData["Title"] = "About";
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
 }
 <script src="~/app/about-app/systemjs.config.js"></script>
 <script>
         System.import('app/about-app/main')
               .then(null, console.error.bind(console));
 </script>
+
 
 <about-app>Loading...</about-app>

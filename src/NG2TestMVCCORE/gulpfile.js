@@ -28,13 +28,13 @@ var paths = {
 */
 gulp.task('compile', ['clean-app'], function () {
     return gulp
-      .src('./wwwroot/app/**/*.ts')
+      .src('./wwwroot/app/**/*.ts', { base: "." })
       .pipe(ts(tsconfig.compilerOptions))
-      .pipe(gulp.dest("./wwwroot/app"));
+      .pipe(gulp.dest(""));
 });
 
 gulp.task("clean-app", function() {
-    del(["./wwwroot/app/*.js", "./wwwroot/app/*.js.map"]);
+    del(["./wwwroot/app/**/*.js", "./wwwroot/app/**/*.js.map", "!./wwwroot/app/**/systemjs.config.js"]);
 });
 
 gulp.task("clean-libs", function () {

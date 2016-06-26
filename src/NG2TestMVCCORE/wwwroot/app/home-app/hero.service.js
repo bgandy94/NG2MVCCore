@@ -9,16 +9,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var AppComponent = (function () {
-    function AppComponent() {
+var mock_heroes_1 = require('../shared/mock-heroes');
+var HeroService = (function () {
+    function HeroService() {
     }
-    AppComponent = __decorate([
-        core_1.Component({
-            selector: 'about-app',
-            template: "<h2>Hello, {{title}}</h2>\n               <input [(ngModel)]=\"title\" placeholder=\"name\" />\n"
-        }), 
+    HeroService.prototype.getHeroes = function () {
+        return Promise.resolve(mock_heroes_1.HEROES);
+    };
+    HeroService.prototype.getHero = function (id) {
+        return this.getHeroes()
+            .then(function (heroes) { return heroes.filter(function (hero) { return hero.id === id; })[0]; });
+    };
+    HeroService = __decorate([
+        core_1.Injectable(), 
         __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+    ], HeroService);
+    return HeroService;
 }());
-exports.AppComponent = AppComponent;
+exports.HeroService = HeroService;

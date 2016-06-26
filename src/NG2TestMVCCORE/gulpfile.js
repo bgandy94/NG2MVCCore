@@ -28,9 +28,13 @@ var paths = {
 */
 gulp.task('compile', ['clean-app'], function () {
     return gulp
-      .src('./wwwroot/app/**/*.ts', { base: "." })
+      .src(['./wwwroot/app/**/**.ts', './wwwroot/app/**/*.service.ts'], { base: "." })
       .pipe(ts(tsconfig.compilerOptions))
       .pipe(gulp.dest(""));
+});
+
+gulp.task("watch", function () {
+    gulp.watch(['./wwwroot/app/**/**.ts', './wwwroot/app/**/*.service.ts'], ["compile"]);
 });
 
 gulp.task("clean-app", function() {

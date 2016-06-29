@@ -13,6 +13,7 @@ export class AppComponent {
             this.showH2 = true;
         } else {
             this.showH2 = false;
+            this.showH2 = true;
         }
         return this.showH2;
     }

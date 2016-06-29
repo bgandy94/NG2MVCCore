@@ -2,16 +2,23 @@
 @Component({
     selector: 'about-app',
     template: `<h2>Hello, {{title}}</h2>
-               <input [(ngModel)]="title" placeholder="name" />
+               <input (keyup)="checkTitle()" [(ngModel)]="title" placeholder="name" />
                 <h2 *ngIf="showH2">*NGIF IS WORKING!</h2>
 `
 })
 export class AppComponent {
-    title: string;
+    title: string = "";
     showH2: boolean = false;
 
-    if(this.title.length > 0){
+    checkTitle = function() {
+        if (this.title.length > 0) {
+            this.showH2 = true;
+        } else {
+            this.showH2 = false;
+        }
+        return this.showH2;
+    }
+    
 
     
-}
 }
